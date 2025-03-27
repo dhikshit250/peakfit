@@ -1,0 +1,93 @@
+/* General Dashboard Styling */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #000; /* Dark background */
+  color: white;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  padding: 20px;
+  margin-top: -120px; /* Moves the entire section upwards */
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #facc15; /* CultFit Yellow */
+  margin-bottom: 20px; /* Space between h1 and grid */
+}
+
+/* Dashboard Grid Layout */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Responsive grid */
+  gap: 20px;
+  width: 85%;
+  max-width: 1000px;
+  margin-top: 10px; /* Prevent overlap */
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+  background-color: #111; /* Slightly lighter black */
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0px 5px 10px rgba(255, 255, 255, 0.1);
+}
+
+.dashboard-card:hover {
+  transform: scale(1.05); /* Subtle hover effect */
+  box-shadow: 0px 8px 16px rgba(255, 255, 255, 0.2);
+}
+
+/* Card Icons */
+.dashboard-card .icon {
+  font-size: 36px;
+  color: #facc15; /* Yellow CultFit Theme */
+  margin-bottom: 12px;
+}
+
+.dashboard-card h3 {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  .dashboard-card {
+    padding: 22px;
+  }
+}
+
+@media (max-width: 500px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .dashboard-card {
+    padding: 20px;
+  }
+
+  .dashboard-card .icon {
+    font-size: 32px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+}

@@ -1,0 +1,131 @@
+.home-container {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 40px;
+  background-color: #000; /* Black background for the entire page */
+  color: white; /* White text color for contrast */
+  min-height: 100vh; /* Ensure the container covers the full height of the viewport */
+}
+
+/* Hero Section */
+.hero {
+  background: url('../assets/fitness-bg.jpg') no-repeat center center/cover;
+  color: white;
+  padding: 100px 20px; /* Increased padding for more prominence */
+  border-radius: 15px; /* More rounded corners for a smoother look */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay for image */
+}
+
+.hero h1 {
+  font-size: 3rem; /* Increased font size for more impact */
+  margin-bottom: 15px;
+}
+
+.hero p {
+  font-size: 1.25rem; /* Slightly larger description text */
+  margin-bottom: 30px; /* More space between the text and button */
+}
+
+.cta-button {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 12px 30px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  border-radius: 30px; /* Rounded corners for the button */
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.cta-button:hover {
+  background-color: white;
+  color: black;
+  transform: scale(1.05); /* Slight scale on hover for effect */
+}
+
+/* Features Section */
+.features {
+  margin: 70px 0;
+}
+
+.features h2 {
+  font-size: 2.5rem; /* Larger heading for emphasis */
+  color: white;
+  margin-bottom: 40px; /* More space between the heading and feature cards */
+}
+
+.feature-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap; /* Make sure cards wrap on smaller screens */
+}
+
+.feature-card {
+  background: transparent;
+  padding: 30px;
+  border-radius: 15px; /* Softer rounded corners */
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3); /* Slightly deeper shadow for depth */
+  width: 250px;
+  border: 2px solid white; /* White border for a minimalist look */
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px); /* Slight lift effect on hover */
+}
+
+.feature-card h3 {
+  margin-bottom: 15px;
+  color: white; /* White text for titles */
+  font-size: 1.4rem; /* Larger title font for prominence */
+}
+
+.feature-card p {
+  color: #ddd; /* Lighter gray text for descriptions */
+  font-size: 1rem;
+  line-height: 1.6; /* Better line spacing for readability */
+}
+
+/* Testimonials Section */
+.testimonials {
+  background: transparent;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+  margin-top: 60px;
+}
+
+.testimonials h2 {
+  font-size: 2.5rem;
+  color: white;
+  margin-bottom: 30px; /* More space between heading and testimonials */
+}
+
+.testimonial {
+  font-style: italic;
+  margin-bottom: 25px;
+  color: #ddd; /* Lighter gray text for testimonials */
+}
+
+.testimonial span {
+  display: block;
+  font-size: 1.2rem;
+  margin-top: 10px;
+  color: #bbb; /* Lighter color for names */
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .feature-cards {
+    flex-direction: column; /* Stack feature cards vertically on smaller screens */
+    gap: 20px;
+  }
+
+  .cta-button {
+    padding: 10px 20px;
+    font-size: 1.1rem; /* Slightly smaller button on mobile */
+  }
+}

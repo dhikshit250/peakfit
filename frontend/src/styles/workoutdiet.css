@@ -1,0 +1,152 @@
+/* Global Page Styles */
+.workout-diet-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  background: #0d0d0d; /* Deep dark theme */
+  overflow-y: auto;
+  margin-top: -120px;
+}
+
+/* Headings */
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #facc15; /* CultFit Yellow */
+}
+
+h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #ff9800;
+}
+
+/* Workout & Diet Sections */
+.workout-section,
+.diet-section {
+  width: 90%;
+  max-width: 1200px;
+  margin-bottom: 40px;
+  padding: 20px;
+  background: #1a1a1a;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.05);
+  transition: 0.3s ease-in-out;
+}
+
+.workout-section:hover,
+.diet-section:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 10px 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Grid Layout */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  justify-content: center;
+}
+
+/* Input Filter */
+.filter-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-container label {
+  margin-right: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #00bcd4;
+}
+
+.filter-container input {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  width: 250px;
+  font-size: 1rem;
+  background: #262626;
+  color: white;
+  outline: none;
+  transition: 0.3s ease-in-out;
+}
+
+.filter-container input:focus {
+  box-shadow: 0 0 10px rgba(0, 188, 212, 0.7);
+}
+
+/* No Results Message */
+.no-results {
+  font-size: 1.2rem;
+  color: #ff4d4d;
+  margin-top: 10px;
+}
+
+/* Cards */
+.workout-card,
+.meal-card {
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 188, 212, 0.1);
+  transition: 0.3s ease-in-out;
+}
+
+.workout-card:hover,
+.meal-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 15px rgba(0, 188, 212, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-container {
+    flex-direction: column;
+  }
+
+  .filter-container label {
+    margin-bottom: 5px;
+  }
+
+  .filter-container input {
+    width: 100%;
+    max-width: 300px;
+  }
+}

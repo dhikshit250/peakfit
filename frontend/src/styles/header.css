@@ -1,0 +1,59 @@
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background-color: #111;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  height: 40px;
+  z-index: 1000;
+}
+
+/* Logo */
+.header .logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #887272;
+}
+
+/* Navigation */
+.header nav ul {
+  display: flex;
+  gap: 30px;
+}
+
+.homebutton{
+  color: white;
+  text-decoration: none;
+}
+
+.header nav ul li a {
+  font-size: 1rem;
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.header nav ul li a:hover {
+  background-color: #222;
+
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .header nav ul {
+    flex-direction: column;
+    margin-top: 10px;
+    gap: 15px;
+  }
+}
