@@ -18,8 +18,9 @@ const Auth = () => {
 
     try {
       const url = isLogin
-        ? "https://your-backend-url.com/api/auth/login"
-        : "https://your-backend-url.com/api/auth/signup";
+      ? "http://127.0.0.1:5000/api/auth/login" // For login
+      : "http://127.0.0.1:5000/api/auth/register"; // For signup (or register)
+
 
       const body = isLogin
         ? { email, password }
