@@ -1,0 +1,109 @@
+/* Footer Container */
+.footer {
+    background-color: #111; /* Dark background */
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Logo Section */
+  .footer-logo {
+    flex: 1 1 200px;
+    text-align: left;
+  }
+  
+  .footer-logo h2 {
+    margin: 0;
+    font-size: 1.8rem;
+  }
+  
+  .footer-logo h2 a {
+    color: #facc15; /* PeakFit Yellow */
+    text-decoration: none;
+  }
+  
+  /* Navigation Links */
+  .footer-links {
+    flex: 2 1 300px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 10px 0;
+  }
+  
+  .footer-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-links a:hover {
+    color: #facc15;
+  }
+  
+  /* Social Media Icons */
+  .footer-social {
+    flex: 1 1 200px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin: 10px 0;
+  }
+  
+  .footer-social a {
+    color: #fff;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-social a:hover {
+    color: #facc15;
+  }
+  
+  /* Copyright */
+  .footer-copy {
+    width: 100%;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .footer-logo,
+    .footer-links,
+    .footer-social {
+      flex: none;
+      margin: 5px 0;
+      text-align: center;
+    }
+    
+    .footer-links {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .footer-social {
+      justify-content: center;
+    }
+  }
+  

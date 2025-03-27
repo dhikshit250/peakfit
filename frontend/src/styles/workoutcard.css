@@ -1,0 +1,57 @@
+/* Workout Card Base Styles */
+.workout-card {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 188, 212, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    margin: 10px;
+  }
+  
+  .workout-card img {
+    width: 100%;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .workout-card h3 {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+  
+  .workout-card p {
+    font-size: 1rem;
+    margin: 5px 0;
+  }
+  
+  /* Hover Effects */
+  .workout-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 15px rgba(0, 188, 212, 0.3);
+  }
+  
+  /* Responsive Adjustments for Mobile Devices */
+  @media (max-width: 480px) {
+    .workout-card {
+      padding: 12px;
+      margin: 8px;
+    }
+    
+    .workout-card img {
+      max-height: 100px;
+    }
+    
+    .workout-card h3 {
+      font-size: 1rem;
+      margin: 8px 0;
+    }
+    
+    .workout-card p {
+      font-size: 0.9rem;
+      margin: 3px 0;
+    }
+  }
+  

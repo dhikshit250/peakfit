@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import WorkoutCard from "../components/WorkoutCard";
 import MealCard from "../components/MealCard";
-import "../styles/workoutdiet.css"; // Updated CSS for full-screen layout
+import "../styles/workoutdiet.css"; // Updated CSS for responsive full-screen layout
 
 const WorkoutDiet = () => {
   const [workouts] = useState([

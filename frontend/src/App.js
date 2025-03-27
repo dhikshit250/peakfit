@@ -7,6 +7,8 @@ import ProfileEdit from "./pages/ProfileEdit";
 import WorkoutDiet from "./pages/WorkoutDiet";
 import Header from "./components/Header";
 import "./App.css"; // Add your main styling here
+import Footer from "./components/Footer";
+
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
             <Route path="/workout-diet" element={<WorkoutDiet />} />
           </Routes>
         </div>
+        <Footer />
       </div>
     </Router>
   );

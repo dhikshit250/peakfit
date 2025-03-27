@@ -5,12 +5,12 @@ import profilepic from "../assets/default-profile.png";
 
 const ProfileEdit = () => {
   const [formData, setFormData] = useState({
-    name: "John Doe",
-    email: "johndoe@example.com",
-    height: "175",
-    weight: "70",
+    name: "",
+    email: "",
+    height: 175, // Default value
+    weight: 70,  // Default value
     goal: "Maintain",
-    age: "25",
+    age: 25,     // Default value
     gender: "Male",
     profilePic: "/assets/default-profile.png",
   });
@@ -37,34 +37,52 @@ const ProfileEdit = () => {
     <div className="profile-container">
       <div className="profile-content">
         <h1>Edit Profile</h1>
-        <br />
         <div className="profile-form">
           <div className="profile-pic-container">
-            <img src= {profilepic} alt="Profile" className="profile-pic" />
-            <br />
+            <img src={profilepic} alt="Profile" className="profile-pic" />
             <input type="file" accept="image/*" onChange={handleImageUpload} />
           </div>
-          <br />
           <form onSubmit={handleSubmit}>
             <label>Name:</label>
-            
-            <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-            <br /><br />
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
 
             <label>Email:</label>
-            
-            <input type="email" name="email" value={formData.email} onChange={handleChange} required disabled />
-            <br /><br />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              disabled
+            />
 
-            <label>Height (cm):</label>
-            
-            <input type="number" name="height" value={formData.height} onChange={handleChange} required />
-            <br /><br />
+            <label>Height (cm): {formData.height}</label>
+            <input
+              type="range"
+              name="height"
+              min="140"
+              max="190"
+              value={formData.height}
+              onChange={handleChange}
+              required
+            />
 
-            <label>Weight (kg):</label>
-            
-            <input type="number" name="weight" value={formData.weight} onChange={handleChange} required />
-            <br /><br />
+            <label>Weight (kg): {formData.weight}</label>
+            <input
+              type="range"
+              name="weight"
+              min="40"
+              max="150"
+              value={formData.weight}
+              onChange={handleChange}
+              required
+            />
 
             <label>Goal:</label>
             <select name="goal" value={formData.goal} onChange={handleChange}>
@@ -72,23 +90,28 @@ const ProfileEdit = () => {
               <option value="Cut">Cut</option>
               <option value="Maintain">Maintain</option>
             </select>
-            <br /><br />
 
-            <label>Age:</label>
-            
-            <input type="number" name="age" value={formData.age} onChange={handleChange} required />
-            <br /><br />
+            <label>Age: {formData.age}</label>
+            <input
+              type="range"
+              name="age"
+              min="16"
+              max="60"
+              value={formData.age}
+              onChange={handleChange}
+              required
+            />
 
             <label>Gender:</label>
-            
             <select name="gender" value={formData.gender} onChange={handleChange}>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
               <option value="Other">Other</option>
             </select>
-            <br /><br />
 
-            <button type="submit" className="save-btn">Save Changes</button>
+            <button type="submit" className="save-btn">
+              Save Changes
+            </button>
           </form>
         </div>
       </div>

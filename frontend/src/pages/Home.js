@@ -38,17 +38,15 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="testimonials">
-        <h2>What Our Users Say</h2>
-        <div className="testimonial">
-          <p>"PeakFit helped me lose 10kg in 3 months! Best decision ever."</p>
-          <span>- Rahul M.</span>
-        </div>
-        <div className="testimonial">
-          <p>"The personalized workouts are amazing! I feel stronger than ever."</p>
-          <span>- Anjali P.</span>
-        </div>
+      {/* Community Section */}
+      <section className="community">
+        <h2>Join Our Community</h2>
+        <p>
+          Connect with fellow fitness enthusiasts, share tips, and stay motivated on your fitness journey.
+        </p>
+        <button className="cta-button" onClick={handleStartJourney}>
+          Join Now
+        </button>
       </section>
     </div>
   );

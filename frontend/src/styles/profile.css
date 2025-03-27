@@ -1,4 +1,4 @@
-/* General Profile Page Styling */
+/* Global Profile Page Styling */
 .profile-container {
   display: flex;
   justify-content: center;
@@ -7,11 +7,13 @@
   background-color: #000; /* Dark background for a sleek look */
   color: white;
   font-family: "Poppins", sans-serif;
+  padding: 2rem; /* Using rem for scalability */
 }
 
+/* Profile Content Container */
 .profile-content {
   background: #111; /* Slightly lighter than background */
-  padding: 40px;
+  padding: 2.5rem;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
   max-width: 500px;
@@ -27,17 +29,17 @@
 }
 
 .profile-pic {
-  width: 120px;
-  height: 120px;
+  width: 7.5rem; /* Approximately 120px */
+  height: 7.5rem;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #facc15; /* Yellow border for contrast */
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem; /* 10px */
 }
 
 input[type="file"] {
   color: white;
-  font-size: 14px;
+  font-size: 0.875rem; /* 14px */
   cursor: pointer;
 }
 
@@ -50,7 +52,7 @@ input[type="file"] {
 
 label {
   font-weight: 500;
-  margin-top: 10px;
+  margin-top: 0.625rem; /* 10px */
   display: block;
   text-align: left;
   width: 100%;
@@ -58,15 +60,15 @@ label {
 
 input, select {
   width: 100%;
-  padding: 10px;
-  margin-top: 5px;
+  padding: 0.625rem; /* 10px */
+  margin-top: 0.3125rem; /* 5px */
   background-color: #222;
   border: none;
   border-radius: 5px;
   color: white;
-  font-size: 16px;
+  font-size: 1rem;
   outline: none;
-  transition: 0.3s ease-in-out;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input:focus, select:focus {
@@ -81,16 +83,16 @@ select {
 /* Button Styling */
 .save-btn {
   width: 100%;
-  padding: 12px;
-  margin-top: 20px;
+  padding: 0.75rem; /* 12px */
+  margin-top: 1.25rem; /* 20px */
   background-color: #facc15; /* CultFit-inspired yellow */
   color: black;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: bold;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: 0.3s ease-in-out;
+  transition: background-color 0.3s ease;
 }
 
 .save-btn:hover {
@@ -100,28 +102,88 @@ select {
 /* Responsive Design */
 @media (max-width: 600px) {
   .profile-content {
-    padding: 20px;
+    padding: 1.25rem; /* 20px */
   }
 
   .profile-pic {
-    width: 100px;
-    height: 100px;
+    width: 6.25rem; /* 100px */
+    height: 6.25rem;
   }
 
   input, select {
-    font-size: 14px;
+    font-size: 0.875rem; /* 14px */
   }
 
   .save-btn {
-    font-size: 14px;
-    padding: 10px;
+    font-size: 0.875rem; /* 14px */
+    padding: 0.625rem; /* 10px */
   }
 }
+
+/* Optional: Remove or update .form class if not used */
 .form {
-  padding: 0%;
+  padding: 0;
   width: 300px;
-    display: block;
-    margin-top: 0em;
-    unicode-bidi: isolate;
+  margin-top: 0;
+  unicode-bidi: isolate;
 }
 
+/* Custom Slider Design */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #111111; /* Track background */
+  border-radius: 5px;
+  outline: none;
+  margin: 10px 0;
+}
+
+/* WebKit Browsers (Chrome, Safari, Edge) */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: #facc15; /* Yellow thumb color */
+  border: 2px solid #fff; /* White border */
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin-top: -8px; /* Align thumb with track */
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background: #eab308;
+  transform: scale(1.1);
+}
+
+/* Mozilla Firefox */
+input[type="range"]::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: #facc15;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  background: #eab308;
+  transform: scale(1.1);
+}
+
+/* Customize the track for a polished look */
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  background: #333;
+  border-radius: 5px;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 8px;
+  background: #333;
+  border-radius: 5px;
+}

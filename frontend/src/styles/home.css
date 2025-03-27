@@ -89,32 +89,25 @@
   line-height: 1.6; /* Better line spacing for readability */
 }
 
-/* Testimonials Section */
-.testimonials {
-  background: transparent;
-  padding: 40px;
+/* Community Section */
+.community {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 40px 20px;
   border-radius: 15px;
-  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
   margin-top: 60px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-.testimonials h2 {
+.community h2 {
   font-size: 2.5rem;
-  color: white;
-  margin-bottom: 30px; /* More space between heading and testimonials */
+  margin-bottom: 20px;
+  color: #facc15; /* Use the theme yellow */
 }
 
-.testimonial {
-  font-style: italic;
-  margin-bottom: 25px;
-  color: #ddd; /* Lighter gray text for testimonials */
-}
-
-.testimonial span {
-  display: block;
+.community p {
   font-size: 1.2rem;
-  margin-top: 10px;
-  color: #bbb; /* Lighter color for names */
+  margin-bottom: 20px;
+  color: #ddd;
 }
 
 /* Mobile Adjustments */
@@ -123,7 +116,7 @@
     flex-direction: column; /* Stack feature cards vertically on smaller screens */
     gap: 20px;
   }
-
+  
   .cta-button {
     padding: 10px 20px;
     font-size: 1.1rem; /* Slightly smaller button on mobile */

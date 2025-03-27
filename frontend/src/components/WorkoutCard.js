@@ -1,4 +1,6 @@
 import React from "react";
+import "../styles/workoutcard.css";
+
 
 const WorkoutCard = ({ workout }) => {
   return (
