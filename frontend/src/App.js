@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
+import DietPlan from "./pages/DietPlan"; 
+import Progress from "./pages/Progress";
 import WorkoutPlan from "./pages/WorkoutPlan";
 import ProfileEdit from "./pages/ProfileEdit"; // Added ProfileEdit
 import WorkoutDiet from "./pages/WorkoutDiet"; // Added WorkoutDiet
@@ -33,6 +35,8 @@ function App() {
         <Route path="/workout-diet" element={<WorkoutDiet />} /> {/* ✅ Added WorkoutDiet */}
         <Route path="/settings" element={<Settings/>} />
         <Route path="/workout-plan" element={<WorkoutPlan />} />
+        <Route path="/diet-plan" element={<DietPlan />} />
+        <Route path="/progress" element={<Progress />} />
 
 
       </Routes>
