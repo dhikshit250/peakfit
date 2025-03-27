@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import "../styles/auth.css"; // Import styles
+import { useNavigate } from "react-router-dom";
+import "../styles/auth.css";
 import logo from "../assets/logo.png";
 
-const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true); // Toggle between Login & Sign-up
-  const [email, setEmail] = useState("");
+const Auth = ({ setIsLoggedIn }) => {
+  const [isLogin, setIsLogin] = useState(true);
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     setIsLogin(!isLogin);
+    setError(null);
   };
 
   const handleSubmit = async (e) => {
@@ -18,30 +22,34 @@ const Auth = () => {
 
     try {
       const url = isLogin
-      ? "http://127.0.0.1:5000/api/auth/login" // For login
-      : "http://127.0.0.1:5000/api/auth/register"; // For signup (or register)
-
+        ? "http://127.0.0.1:5000/api/auth/login"
+        : "http://127.0.0.1:5000/api/auth/register";
 
       const body = isLogin
-        ? { email, password }
-        : { fullName, email, password };
+        ? { identifier, password }
+        : { username, email: identifier, password };
 
       const response = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(data.message || "Something went wrong");
+        throw new Error(data.message || "Invalid credentials, please try again.");
       }
 
-      // Handle successful login/signup
-      alert(isLogin ? "Login successful!" : "Sign-up successful!");
+      if (isLogin) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("isLoggedIn", "true"); // Persist login state
+        setIsLoggedIn(true);
+        navigate("/"); // Redirect to home
+      } else {
+        alert("Sign-up successful! Please login.");
+        setIsLogin(true);
+      }
     } catch (error) {
       setError(error.message);
     }
@@ -59,17 +67,17 @@ const Auth = () => {
           {!isLogin && (
             <input
               type="text"
-              placeholder="Full Name"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           )}
           <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            placeholder={isLogin ? "Username or Email" : "Email"}
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
             required
           />
           <input
@@ -86,9 +94,7 @@ const Auth = () => {
 
         <p className="toggle-text">
           {isLogin ? "New to PeakFit?" : "Already have an account?"}{" "}
-          <span onClick={handleToggle}>
-            {isLogin ? "Sign Up" : "Login"}
-          </span>
+          <span onClick={handleToggle}>{isLogin ? "Sign Up" : "Login"}</span>
         </p>
       </div>
     </div>

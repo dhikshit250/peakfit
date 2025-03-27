@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDumbbell, faTachometerAlt, faBars, faTimes, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import "../styles/header.css";
 
 const Header = () => {
-  // This state can be managed by your auth logic
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const token = localStorage.getItem("token");
+      setIsLoggedIn(!!token);
+      if (token) {
+        window.location.reload(); // Force refresh on login
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  // Close menu when a link is clicked
   const closeMenu = () => {
     setMobileMenuOpen(false);
   };
@@ -24,7 +35,6 @@ const Header = () => {
         <Link className="homebutton" to="/">PeakFit</Link>
       </h2>
       <nav>
-        {/* Desktop Menu */}
         <div className="desktop-menu">
           <ul>
             {isLoggedIn ? (
@@ -39,6 +49,16 @@ const Header = () => {
                     <FontAwesomeIcon icon={faTachometerAlt} /> Dashboard
                   </Link>
                 </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      window.location.reload(); // Force refresh on logout
+                    }}
+                  >
+                    Logout
+                  </button>
+                </li>
               </>
             ) : (
               <li>
@@ -49,11 +69,9 @@ const Header = () => {
             )}
           </ul>
         </div>
-        {/* Hamburger Icon for Mobile */}
         <div className="mobile-menu-icon" onClick={toggleMobileMenu}>
           <FontAwesomeIcon icon={mobileMenuOpen ? faTimes : faBars} size="lg" />
         </div>
-        {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="mobile-menu">
             <ul>

@@ -1,4 +1,7 @@
 Flask
 flask-cors
-PyJWT
-Flask-SQLAlchemy
+psycopg2
+cloudinary
+python-dotenv
+werkzeug
+pyjwt

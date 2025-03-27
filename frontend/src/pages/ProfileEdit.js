@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../styles/profile.css";
-import Header from "../components/Header"; // Import Header component
 import profilepic from "../assets/default-profile.png";
 
 const ProfileEdit = () => {
