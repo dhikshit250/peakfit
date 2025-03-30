@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import "../styles/auth.css";
 import logo from "../assets/logo.png";
 
-const Auth = ({ setIsLoggedIn }) => {
+const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState(null);
 
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleToggle = () => {
@@ -42,10 +44,12 @@ const Auth = ({ setIsLoggedIn }) => {
       }
 
       if (isLogin) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("isLoggedIn", "true"); // Persist login state
-        setIsLoggedIn(true);
-        navigate("/"); // Redirect to home
+        if (data.access_token && data.refresh_token) {
+          login(data.access_token, data.refresh_token);
+          setTimeout(() => navigate("/"), 100); // Delay to ensure state update
+        } else {
+          throw new Error("Invalid server response: Tokens missing.");
+        }
       } else {
         alert("Sign-up successful! Please login.");
         setIsLogin(true);

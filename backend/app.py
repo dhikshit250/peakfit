@@ -1,16 +1,27 @@
 from flask import Flask
-from config import Config
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
+from config import Config
 from routes.auth import auth_bp
 from routes.upload import upload_bp
+from routes.profile import profile_bp
+from routes.user_routes import user_routes
+from routes.workout_routes import workout_routes
 
 app = Flask(__name__)
 app.config.from_object(Config)
 CORS(app)
 
+# Initialize JWT
+app.config["JWT_SECRET_KEY"] = Config.SECRET_KEY  # Load secret key for JWT
+jwt = JWTManager(app)  # Initialize JWT Manager
+
 # Register blueprints
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
 app.register_blueprint(upload_bp, url_prefix='/api/upload')
+app.register_blueprint(profile_bp, url_prefix='/api/profile')
+app.register_blueprint(user_routes)
+app.register_blueprint(workout_routes)
 
 if __name__ == '__main__':
     app.run(debug=True)

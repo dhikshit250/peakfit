@@ -13,3 +13,4 @@ def get_db_connection():
         port=os.getenv('DB_PORT')
     )
     return conn
+ 

@@ -1,25 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDumbbell, faTachometerAlt, faBars, faTimes, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { faDumbbell, faCalendarCheck,faTachometerAlt, faBars, faTimes, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext"; // Import AuthContext
 import "../styles/header.css";
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+  const { isLoggedIn } = useContext(AuthContext); // Get login state from context
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const token = localStorage.getItem("token");
-      setIsLoggedIn(!!token);
-      if (token) {
-        window.location.reload(); // Force refresh on login
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -41,23 +29,13 @@ const Header = () => {
               <>
                 <li>
                   <Link to="/workout-diet">
-                    <FontAwesomeIcon icon={faDumbbell} /> Workouts & Diet
+                  <FontAwesomeIcon icon={faCalendarCheck} /> Today's Plan
                   </Link>
                 </li>
                 <li>
                   <Link to="/dashboard">
                     <FontAwesomeIcon icon={faTachometerAlt} /> Dashboard
                   </Link>
-                </li>
-                <li>
-                  <button
-                    onClick={() => {
-                      localStorage.removeItem("token");
-                      window.location.reload(); // Force refresh on logout
-                    }}
-                  >
-                    Logout
-                  </button>
                 </li>
               </>
             ) : (

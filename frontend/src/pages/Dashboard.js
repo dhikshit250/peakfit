@@ -8,8 +8,8 @@ const Dashboard = () => {
       <h1>Welcome to Your Dashboard</h1>
       <div className="dashboard-grid">
         <DashboardCard title="Profile" icon="user" route="/profile" />
-        <DashboardCard title="Workout Plan" icon="dumbbell" route="/workout-plan" />
-        <DashboardCard title="Diet Plan" icon="utensils" route="/diet-plan" />
+        <DashboardCard title="Customize Workout" icon="dumbbell" route="/workout-plan" />
+        <DashboardCard title="Customize Diet" icon="utensils" route="/diet-plan" />
         <DashboardCard title="Progress" icon="chart-line" route="/progress" />
         <DashboardCard title="Settings" icon="cog" route="/settings" />
       </div>

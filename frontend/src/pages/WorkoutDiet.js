@@ -24,7 +24,7 @@ const WorkoutDiet = () => {
 
   return (
     <div className="workout-diet-container">
-      <h1>Workout & Diet Plan</h1>
+      <h1>Today's Schedule</h1>
 
       <section className="workout-section">
         <h2>Workout Plan</h2>
@@ -37,16 +37,6 @@ const WorkoutDiet = () => {
 
       <section className="diet-section">
         <h2>Diet Plan</h2>
-        <div className="filter-container">
-          <label htmlFor="allergyFilter">Filter Allergies:</label>
-          <input
-            id="allergyFilter"
-            type="text"
-            placeholder="Enter food to avoid..."
-            value={allergy}
-            onChange={(e) => setAllergy(e.target.value)}
-          />
-        </div>
         <div className="grid-container">
           {filteredMeals.length > 0 ? (
             filteredMeals.map((meal) => <MealCard key={meal.id} meal={meal} />)

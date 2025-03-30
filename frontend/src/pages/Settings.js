@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 import "../styles/settings.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -18,13 +19,34 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Settings = () => {
+  const { token, logout } = useContext(AuthContext); // Get JWT token & logout function from AuthContext
   const [theme, setTheme] = useState("light");
   const [fontSize, setFontSize] = useState("medium");
   const [notifications, setNotifications] = useState(true);
 
-  const handleLogout = () => {
-    localStorage.removeItem("userToken");
-    window.location.href = "/";
+  const handleDeleteAccount = async () => {
+    if (!window.confirm("Are you sure? This action cannot be undone.")) return;
+
+    try {
+      const response = await fetch("http://localhost:5000/delete_account", {
+        method: "DELETE",
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}` // Use JWT for authentication
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Your account has been deleted.");
+        logout(); // Log out and redirect to login page
+      } else {
+        alert(`Error: ${data.error || "Failed to delete account."}`);
+      }
+    } catch (error) {
+      alert("Failed to delete account. Please try again.");
+    }
   };
 
   return (
@@ -128,14 +150,14 @@ const Settings = () => {
 
           {/* Account Deletion */}
           <li>
-            <button className="delete-btn">
+            <button className="delete-btn" onClick={handleDeleteAccount}>
               <FontAwesomeIcon icon={faTrashAlt} /> Delete Account
             </button>
           </li>
 
           {/* Logout */}
           <li>
-            <button className="logout-btn" onClick={handleLogout}>
+            <button className="logout-btn" onClick={logout}>
               <FontAwesomeIcon icon={faSignOutAlt} /> Logout
             </button>
           </li>

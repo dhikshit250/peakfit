@@ -1,11 +1,26 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import "../styles/home.css";
 
 const Home = () => {
+  const { isLoggedIn } = useContext(AuthContext); // Get login state from context
   const navigate = useNavigate();
 
   const handleStartJourney = () => {
-    navigate("/auth");
+    if (isLoggedIn) {
+      navigate("/progress");
+    } else {
+      navigate("/auth"); // Redirect to auth page if not logged in
+    }
+  };
+
+  const handlecomm = () => {
+    if (isLoggedIn) {
+      window.open("https://www.youtube.com/@zelusplayz", "_blank"); // Open in new tab
+    } else {
+      navigate("/auth"); // Redirect to auth page if not logged in
+    }
   };
 
   return (
@@ -15,7 +30,7 @@ const Home = () => {
         <h1>Get Fit, Your Way!</h1>
         <p>Personalized workout & diet plans to achieve your fitness goals.</p>
         <button className="cta-button" onClick={handleStartJourney}>
-          Start Your Fitness Journey
+          {isLoggedIn ? "Your Progress" : "Start Your Fitness Journey"}
         </button>
       </section>
 
@@ -44,7 +59,7 @@ const Home = () => {
         <p>
           Connect with fellow fitness enthusiasts, share tips, and stay motivated on your fitness journey.
         </p>
-        <button className="cta-button" onClick={handleStartJourney}>
+        <button className="cta-button" onClick={handlecomm}>
           Join Now
         </button>
       </section>
