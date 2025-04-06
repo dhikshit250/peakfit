@@ -1,48 +1,86 @@
-import psycopg2
+from utils.db import get_db_connection
 
 def create_tables():
-    conn = psycopg2.connect(
-        dbname="your_db_name",
-        user="your_db_user",
-        password="your_db_password",
-        host="your_db_host",
-        port="your_db_port"
-    )
+    conn = get_db_connection()
     cur = conn.cursor()
 
-    # Drop old user_profiles table if it exists
-    cur.execute("DROP TABLE IF EXISTS user_profiles CASCADE;")
+    try:
+        # FK: peakfit_profiles → peakfit_users
+        cur.execute("""
+            DO $$
+            BEGIN
+                IF EXISTS (
+                    SELECT FROM information_schema.tables
+                    WHERE table_name = 'peakfit_profiles'
+                ) AND NOT EXISTS (
+                    SELECT 1 FROM information_schema.table_constraints
+                    WHERE constraint_name = 'fk_profile_user'
+                    AND table_name = 'peakfit_profiles'
+                ) THEN
+                    ALTER TABLE peakfit_profiles
+                    ADD CONSTRAINT fk_profile_user
+                    FOREIGN KEY (user_id)
+                    REFERENCES peakfit_users(id)
+                    ON DELETE CASCADE;
+                END IF;
+            END
+            $$;
+        """)
 
-    # Create users table (if not already exists)
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS users_project2 (
-            id SERIAL PRIMARY KEY,
-            username VARCHAR(150) UNIQUE NOT NULL,
-            email VARCHAR(150) UNIQUE NOT NULL,
-            password_hash TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-    """)
+        # FK: peakfit_diet_plans → peakfit_users
+        cur.execute("""
+            DO $$
+            BEGIN
+                IF EXISTS (
+                    SELECT FROM information_schema.tables
+                    WHERE table_name = 'peakfit_diet_plans'
+                ) AND NOT EXISTS (
+                    SELECT 1 FROM information_schema.table_constraints
+                    WHERE constraint_name = 'fk_diet_user'
+                    AND table_name = 'peakfit_diet_plans'
+                ) THEN
+                    ALTER TABLE peakfit_diet_plans
+                    ADD CONSTRAINT fk_diet_user
+                    FOREIGN KEY (user_id)
+                    REFERENCES peakfit_users(id)
+                    ON DELETE CASCADE;
+                END IF;
+            END
+            $$;
+        """)
 
-    # Create new user_profiles table
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS user_profiles (
-            id SERIAL PRIMARY KEY,
-            user_id INT UNIQUE NOT NULL,
-            name TEXT NOT NULL,
-            height INT,
-            weight INT,
-            goal TEXT,
-            age INT,
-            gender TEXT,
-            profile_pic TEXT,
-            FOREIGN KEY (user_id) REFERENCES users_project2(id) ON DELETE CASCADE
-        );
-    """)
+        # FK: peakfit_workout_plans → peakfit_users
+        cur.execute("""
+            DO $$
+            BEGIN
+                IF EXISTS (
+                    SELECT FROM information_schema.tables
+                    WHERE table_name = 'peakfit_workout_plans'
+                ) AND NOT EXISTS (
+                    SELECT 1 FROM information_schema.table_constraints
+                    WHERE constraint_name = 'fk_workout_user'
+                    AND table_name = 'peakfit_workout_plans'
+                ) THEN
+                    ALTER TABLE peakfit_workout_plans
+                    ADD CONSTRAINT fk_workout_user
+                    FOREIGN KEY (user_id)
+                    REFERENCES peakfit_users(id)
+                    ON DELETE CASCADE;
+                END IF;
+            END
+            $$;
+        """)
 
-    conn.commit()
-    cur.close()
-    conn.close()
+        conn.commit()
+        print("Foreign key constraints added (if missing).")
 
-# Run the function to apply changes
-create_tables()
+    except Exception as e:
+        conn.rollback()
+        print("Error setting constraints:", str(e))
+
+    finally:
+        cur.close()
+        conn.close()
+
+if __name__ == "__main__":
+    create_tables()

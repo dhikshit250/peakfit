@@ -53,13 +53,19 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("refresh_token");
     setIsLoggedIn(false);
     setUser(null);
-    
-    // ✅ Redirect to `/` after logout
     window.location.href = "/";
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn,
+        user,
+        login,
+        logout,
+        token: localStorage.getItem("access_token"), // ✅ This makes `token` accessible!
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

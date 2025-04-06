@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../context/AuthContext"; // Import AuthContext
+import { AuthContext } from "../context/AuthContext";
 import "../styles/profile.css";
 import defaultProfilePic from "../assets/default-profile.png";
 
 const ProfileEdit = () => {
-  const { token } = useContext(AuthContext); // Get token from context
+  const { token } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     height: 175,
     weight: 70,
     goal: "Maintain",
@@ -31,6 +31,8 @@ const ProfileEdit = () => {
             ...result,
             profilePic: result.profile_pic || defaultProfilePic,
           });
+        } else {
+          console.warn("Profile not found or unauthorized.");
         }
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -40,12 +42,14 @@ const ProfileEdit = () => {
     if (token) fetchProfile();
   }, [token]);
 
-  // Handle input changes
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: name === "height" || name === "weight" || name === "age" ? Number(value) : value,
+    });
   };
 
-  // Handle image selection & preview
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -55,14 +59,13 @@ const ProfileEdit = () => {
     }
   };
 
-  // Upload Image to Cloudinary
   const uploadImageToCloudinary = async (file) => {
     const cloudinaryFormData = new FormData();
     cloudinaryFormData.append("file", file);
-    cloudinaryFormData.append("upload_preset", "your_upload_preset"); // Set this in Cloudinary
+    cloudinaryFormData.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
 
     try {
-      const response = await fetch("https://api.cloudinary.com/v1_1/your_cloud_name/image/upload", {
+      const response = await fetch("https://api.cloudinary.com/v1_1/djpi1cn50/image/upload", {
         method: "POST",
         body: cloudinaryFormData,
       });
@@ -75,43 +78,53 @@ const ProfileEdit = () => {
     }
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     let imageUrl = formData.profilePic;
+
     if (selectedFile) {
-      imageUrl = await uploadImageToCloudinary(selectedFile);
+      const uploadedImageUrl = await uploadImageToCloudinary(selectedFile);
+      if (uploadedImageUrl) {
+        imageUrl = uploadedImageUrl;
+      }
     }
 
     const profileData = new FormData();
     profileData.append("name", formData.name);
-    profileData.append("email", formData.email);
     profileData.append("height", formData.height);
     profileData.append("weight", formData.weight);
     profileData.append("goal", formData.goal);
     profileData.append("age", formData.age);
     profileData.append("gender", formData.gender);
-    if (selectedFile) {
-      profileData.append("profile_pic", selectedFile);
+    profileData.append("profile_pic", imageUrl);
+
+    console.log("🔐 Submitting with token:", token);
+    for (let [key, value] of profileData.entries()) {
+      console.log(`${key}: ${value}`);
     }
 
     try {
       const response = await fetch("http://127.0.0.1:5000/api/profile/save-profile", {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` }, // Added token
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: profileData,
       });
 
       const result = await response.json();
       if (response.ok) {
-        alert("Profile updated successfully!");
+        alert("✅ Profile updated successfully!");
         setFormData({ ...formData, profilePic: imageUrl });
       } else {
-        alert("Error: " + result.error);
+        alert("⚠️ Error: " + result.error);
       }
     } catch (error) {
-      console.error("Error saving profile:", error);
+      console.error("❌ Error saving profile:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -128,14 +141,27 @@ const ProfileEdit = () => {
             <label>Name:</label>
             <input type="text" name="name" value={formData.name} onChange={handleChange} required />
 
-            <label>Email:</label>
-            <input type="email" name="email" value={formData.email} disabled /> {/* Email is now readonly */}
-
             <label>Height (cm): {formData.height}</label>
-            <input type="range" name="height" min="140" max="190" value={formData.height} onChange={handleChange} required />
+            <input
+              type="range"
+              name="height"
+              min="140"
+              max="190"
+              value={formData.height}
+              onChange={handleChange}
+              required
+            />
 
             <label>Weight (kg): {formData.weight}</label>
-            <input type="range" name="weight" min="40" max="150" value={formData.weight} onChange={handleChange} required />
+            <input
+              type="range"
+              name="weight"
+              min="40"
+              max="150"
+              value={formData.weight}
+              onChange={handleChange}
+              required
+            />
 
             <label>Goal:</label>
             <select name="goal" value={formData.goal} onChange={handleChange}>
@@ -145,7 +171,15 @@ const ProfileEdit = () => {
             </select>
 
             <label>Age: {formData.age}</label>
-            <input type="range" name="age" min="16" max="60" value={formData.age} onChange={handleChange} required />
+            <input
+              type="range"
+              name="age"
+              min="16"
+              max="60"
+              value={formData.age}
+              onChange={handleChange}
+              required
+            />
 
             <label>Gender:</label>
             <select name="gender" value={formData.gender} onChange={handleChange}>
@@ -154,7 +188,9 @@ const ProfileEdit = () => {
               <option value="Other">Other</option>
             </select>
 
-            <button type="submit" className="save-btn">Save Changes</button>
+            <button type="submit" className="save-btn" disabled={loading}>
+              {loading ? "Saving..." : "Save Changes"}
+            </button>
           </form>
         </div>
       </div>

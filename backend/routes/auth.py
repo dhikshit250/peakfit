@@ -30,13 +30,13 @@ def register():
 
     try:
         # Check if username or email already exists
-        cur.execute("SELECT id FROM users_project2 WHERE username = %s OR email = %s", (username, email))
+        cur.execute("SELECT id FROM peakfit_users WHERE username = %s OR email = %s", (username, email))
         if cur.fetchone():
             return jsonify({'error': 'Username or Email already exists'}), 400
 
         # Insert new user
         cur.execute("""
-            INSERT INTO users_project2 (username, email, password_hash)
+            INSERT INTO peakfit_users (username, email, password_hash)
             VALUES (%s, %s, %s) RETURNING id
         """, (username, email, password_hash))
         user_id = cur.fetchone()[0]
@@ -65,7 +65,7 @@ def login():
 
     try:
         # Fetch user by username or email
-        cur.execute("SELECT id, password_hash FROM users_project2 WHERE username = %s OR email = %s", (identifier, identifier))
+        cur.execute("SELECT id, password_hash FROM peakfit_users WHERE username = %s OR email = %s", (identifier, identifier))
         user = cur.fetchone()
 
         if not user or not check_password_hash(user[1], password):

@@ -82,7 +82,7 @@ select {
 
 /* Button Styling */
 .save-btn {
-  width: 100%;
+  width: fit-content;
   padding: 0.75rem; /* 12px */
   margin-top: 1.25rem; /* 20px */
   background-color: #facc15; /* CultFit-inspired yellow */

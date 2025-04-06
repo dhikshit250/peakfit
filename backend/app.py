@@ -7,6 +7,7 @@ from routes.upload import upload_bp
 from routes.profile import profile_bp
 from routes.user_routes import user_routes
 from routes.workout_routes import workout_routes
+from routes.diet_routes import diet_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -20,8 +21,9 @@ jwt = JWTManager(app)  # Initialize JWT Manager
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
 app.register_blueprint(upload_bp, url_prefix='/api/upload')
 app.register_blueprint(profile_bp, url_prefix='/api/profile')
-app.register_blueprint(user_routes)
-app.register_blueprint(workout_routes)
+app.register_blueprint(user_routes, url_prefix='/api/user')
+app.register_blueprint(workout_routes, url_prefix='/api/workout')
+app.register_blueprint(diet_bp, url_prefix='/api/diet')
 
 if __name__ == '__main__':
     app.run(debug=True)

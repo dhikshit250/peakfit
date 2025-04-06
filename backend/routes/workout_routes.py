@@ -1,43 +1,62 @@
 from flask import Blueprint, request, jsonify
-import psycopg2
-from psycopg2.extras import RealDictCursor
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from utils.db import get_db_connection
 
-workout_routes = Blueprint("workout_routes", __name__)  # ✅ Create a Blueprint
-
-def get_db_connection():
-    return psycopg2.connect(
-        dbname="your_db_name",
-        user="your_user",
-        password="your_password",
-        host="your_host",
-        port="your_port"
-    )
+workout_routes = Blueprint("workout_routes", __name__)
 
 @workout_routes.route("/workout_plans", methods=["POST"])
+@jwt_required()
 def create_workout_plan():
+    """Create a new workout plan for the authenticated user."""
+    user_id = get_jwt_identity()
+    data = request.get_json()
+
+    # Basic validation
+    if not data.get("days"):
+        return jsonify({"error": "Workout days are required"}), 400
+    if not data.get("intensity") in ["Low", "Moderate", "High"]:
+        return jsonify({"error": "Intensity must be one of: Low, Moderate, High"}), 400
+    if not isinstance(data.get("duration"), int) or data.get("duration") <= 0:
+        return jsonify({"error": "Duration must be a positive integer"}), 400
+    if not isinstance(data.get("calorieGoal"), int) or data.get("calorieGoal") <= 0:
+        return jsonify({"error": "Calorie goal must be a positive integer"}), 400
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
     try:
-        data = request.json
-        user_id = data.get("user_id")
-
-        conn = get_db_connection()
-        cur = conn.cursor()
-
         cur.execute("""
-            INSERT INTO workout_plans (user_id, intensity, duration, type, muscle_group, calorie_goal, reminders, trainer_access, progressive_overload, warm_up_cool_down)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO peakfit_workout_plans (
+                user_id, workout_days, rest_days, intensity, duration, 
+                workout_type, muscle_group_focus, exercises, calorie_burn_goal,
+                equipment, reminders, trainer_access, progressive_overload, warm_up_cool_down
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING id
         """, (
-            user_id, data["intensity"], data["duration"], data["type"], data["muscleGroup"], 
-            data["calorieGoal"], data["reminders"], data["trainerAccess"], 
-            data["progressiveOverload"], data["warmUpCoolDown"]
+            user_id,
+            data.get("days"),
+            data.get("restDays"),
+            data.get("intensity"),
+            data.get("duration"),
+            data.get("type"),
+            data.get("muscleGroup"),
+            data.get("exercises"),
+            data.get("calorieGoal"),
+            data.get("equipment"),
+            data.get("reminders", False),
+            data.get("trainerAccess", False),
+            data.get("progressiveOverload", False),
+            data.get("warmUpCoolDown", False)
         ))
 
         workout_id = cur.fetchone()[0]
         conn.commit()
-        cur.close()
-        conn.close()
-
         return jsonify({"message": "Workout plan created", "id": workout_id}), 201
 
     except Exception as e:
+        conn.rollback()
         return jsonify({"error": str(e)}), 500
+
+    finally:
+        cur.close()
+        conn.close()
