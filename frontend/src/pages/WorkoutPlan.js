@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState,useEffect, useContext } from "react";
 import axios from "axios";
 import Select from "react-select";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/workoutplan.css";
 
-// Define options for the form
+// Options
 const daysOptions = [
   { value: "Monday", label: "Monday" },
   { value: "Tuesday", label: "Tuesday" },
@@ -46,7 +46,7 @@ const equipmentOptions = [
   { value: "Bodyweight", label: "Bodyweight" },
 ];
 
-// Define exercise options for each muscle group
+// Exercises per muscle group
 const exerciseOptions = {
   Chest: [
     { value: "Push-ups", label: "Push-ups" },
@@ -80,7 +80,7 @@ const exerciseOptions = {
   ],
 };
 
-const WorkoutPlan = ({ userId }) => {
+const WorkoutPlan = () => {
   const { token } = useContext(AuthContext);
   const [workoutPlan, setWorkoutPlan] = useState({
     days: [],
@@ -97,6 +97,44 @@ const WorkoutPlan = ({ userId }) => {
     progressiveOverload: false,
     warmUpCoolDown: true,
   });
+
+  useEffect(() => {
+    const fetchWorkoutPlan = async () => {
+      try {
+        const res = await axios.get("http://127.0.0.1:5000/api/workout/workout_plans", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = res.data;
+
+        
+      if (data) {
+        setWorkoutPlan({
+          days: data.workout_days || [],
+          restDays: data.rest_days || [],
+          intensity: data.intensity || "",
+          duration: data.duration || 0,
+          type: data.workout_type || "",
+          muscleGroup: data.muscle_groups || [],
+          exercises: data.exercises || [],
+          calorieGoal: data.calorie_burn_goal || 0,
+          equipment: data.equipment || [],
+          reminders: data.reminders || false,
+          trainerAccess: data.trainer_access || false,
+          progressiveOverload: data.progressive_overload || false,
+          warmUpCoolDown: data.warmup_cooldown || false,
+        });
+      }
+
+      } catch (error) {
+        console.error("No workout plan found or error loading:", error.response?.data || error.message);
+      }
+    };
+
+    fetchWorkoutPlan();
+  }, [token]);
 
   const handleChange = (e) => {
     const { name, type, value, checked } = e.target;
@@ -116,25 +154,77 @@ const WorkoutPlan = ({ userId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formattedPlan = {
-      ...workoutPlan,
-      user_id: userId,
       days: workoutPlan.days.map((d) => d.value).join(", "),
       restDays: workoutPlan.restDays.map((d) => d.value).join(", "),
-      intensity: workoutPlan.intensity.value,
-      type: workoutPlan.type.value,
+      intensity: workoutPlan.intensity?.value,
+      duration: parseInt(workoutPlan.duration),
+      type: workoutPlan.type?.value,
       muscleGroup: workoutPlan.muscleGroup?.value || "",
       exercises: workoutPlan.exercises.map((e) => e.value).join(", "),
+      calorieGoal: parseInt(workoutPlan.calorieGoal),
+      equipment: workoutPlan.equipment?.value || "",
+      reminders: workoutPlan.reminders,
+      trainerAccess: workoutPlan.trainerAccess,
+      progressiveOverload: workoutPlan.progressiveOverload,
+      warmUpCoolDown: workoutPlan.warmUpCoolDown,
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/api/workout_plans", formattedPlan, {
+      await axios.post("http://127.0.0.1:5000/api/workout/workout_plans", formattedPlan, {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert("Workout Plan Saved!");
-      setWorkoutPlan({ ...workoutPlan, days: [], restDays: [], equipment: "", exercises: [] });
+      setWorkoutPlan({
+        days: [],
+        restDays: [],
+        intensity: intensityOptions[1],
+        duration: 45,
+        type: typeOptions[0],
+        muscleGroup: null,
+        exercises: [],
+        calorieGoal: 500,
+        equipment: null,
+        reminders: false,
+        trainerAccess: false,
+        progressiveOverload: false,
+        warmUpCoolDown: true,
+      });
     } catch (err) {
       console.error("Error saving workout plan:", err);
+      alert("Failed to save plan. Check console for error.");
     }
+  };
+
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      backgroundColor: "#111111",
+      borderColor: "#444",
+      color: "#fff",
+      fontSize: "1rem",
+      borderRadius: "8px",
+    }),
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: "#111111",
+      color: "#fff",
+      borderRadius: "8px",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected
+        ? "#fbc02d"
+        : state.isFocused
+        ? "#444"
+        : "#111111",
+      color: "#ffffff",
+      padding: "10px",
+      borderRadius: "5px",
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "#fff",
+    }),
   };
 
   return (
@@ -148,6 +238,7 @@ const WorkoutPlan = ({ userId }) => {
             options={daysOptions}
             value={workoutPlan.days}
             onChange={(selected) => handleSelectChange(selected, "days")}
+            styles={customStyles}
           />
 
           <label>Rest Days:</label>
@@ -156,6 +247,7 @@ const WorkoutPlan = ({ userId }) => {
             options={daysOptions}
             value={workoutPlan.restDays}
             onChange={(selected) => handleSelectChange(selected, "restDays")}
+            styles={customStyles}
           />
 
           <label>Intensity:</label>
@@ -163,6 +255,7 @@ const WorkoutPlan = ({ userId }) => {
             options={intensityOptions}
             value={workoutPlan.intensity}
             onChange={(selected) => handleSelectChange(selected, "intensity")}
+            styles={customStyles}
           />
 
           <label>Duration (minutes):</label>
@@ -181,6 +274,7 @@ const WorkoutPlan = ({ userId }) => {
             options={typeOptions}
             value={workoutPlan.type}
             onChange={(selected) => handleSelectChange(selected, "type")}
+            styles={customStyles}
           />
 
           <label>Muscle Group Focus:</label>
@@ -188,14 +282,20 @@ const WorkoutPlan = ({ userId }) => {
             options={muscleGroupOptions}
             value={workoutPlan.muscleGroup}
             onChange={(selected) => handleSelectChange(selected, "muscleGroup")}
+            styles={customStyles}
           />
 
           <label>Exercises:</label>
           <Select
             isMulti
-            options={workoutPlan.muscleGroup ? exerciseOptions[workoutPlan.muscleGroup.value] : []}
+            options={
+              workoutPlan.muscleGroup
+                ? exerciseOptions[workoutPlan.muscleGroup.value]
+                : []
+            }
             value={workoutPlan.exercises}
             onChange={(selected) => handleSelectChange(selected, "exercises")}
+            styles={customStyles}
           />
 
           <label>Calorie Burn Goal:</label>
@@ -214,13 +314,24 @@ const WorkoutPlan = ({ userId }) => {
             options={equipmentOptions}
             value={workoutPlan.equipment}
             onChange={(selected) => handleSelectChange(selected, "equipment")}
+            styles={customStyles}
           />
 
           <label>Workout Reminder:</label>
-          <input type="checkbox" name="reminders" checked={workoutPlan.reminders} onChange={handleChange} />
+          <input
+            type="checkbox"
+            name="reminders"
+            checked={workoutPlan.reminders}
+            onChange={handleChange}
+          />
 
           <label>Trainer Access:</label>
-          <input type="checkbox" name="trainerAccess" checked={workoutPlan.trainerAccess} onChange={handleChange} />
+          <input
+            type="checkbox"
+            name="trainerAccess"
+            checked={workoutPlan.trainerAccess}
+            onChange={handleChange}
+          />
 
           <label>Progressive Overload:</label>
           <input
@@ -238,7 +349,9 @@ const WorkoutPlan = ({ userId }) => {
             onChange={handleChange}
           />
 
-          <button type="submit" className="submit-btn">Save Plan</button>
+          <button type="submit" className="submit-btn">
+            Save Plan
+          </button>
         </form>
       </div>
     </div>
