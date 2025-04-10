@@ -1,2 +1,25 @@
 # peakfit
 PeakFit – An AI-powered fitness and nutrition optimizer that generates personalized workout and diet plans based on user goals, dietary preferences, and real-time progress tracking.
+
+
+
+DB_NAME=defaultdb
+DB_USER=avnadmin
+DB_PASSWORD=AVNS_FN50P-kHLM7iu0B7ttU
+DB_HOST=postgresdb-zelus-edits.h.aivencloud.com
+DB_PORT=16425
+
+CLOUDINARY_CLOUD_NAME=djpi1cn50
+CLOUDINARY_API_KEY=299641159279359
+CLOUDINARY_API_SECRET=4TR_R0bspZOMFJqZZxyc5A9_1s8
+SECRET_KEY=a3f1c8d92b6e4f3b5a7c1234567890abcdef1234567890abcdef12345678
+REACT_APP_CLOUDINARY_UPLOAD_PRESET=profileimg
+
+OPENAI_API_KEY=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
+
+
+
+
+fr
+
+REACT_APP_CLOUDINARY_UPLOAD_PRESET=profileimg
