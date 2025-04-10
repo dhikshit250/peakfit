@@ -69,9 +69,8 @@ def create_workout_plan():
 @jwt_required()
 def get_workout_plan():
     user_id = get_jwt_identity()
-
     conn = get_db_connection()
-    cur = conn.cursor()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)  # Use RealDictCursor
 
     try:
         cur.execute("""
@@ -88,22 +87,30 @@ def get_workout_plan():
         if result is None:
             return jsonify({"message": "No workout plan found"}), 404
 
-        keys = [
-            "days", "restDays", "intensity", "duration", "type", "muscleGroup",
-            "exercises", "calorieGoal", "equipment", "reminders",
-            "trainerAccess", "progressiveOverload", "warmUpCoolDown"
-        ]
-        workout_plan = dict(zip(keys, result))
-
-        for field in ["days", "restDays", "muscleGroup", "exercises", "equipment"]:
-            if workout_plan[field]:
-                workout_plan[field] = json.loads(workout_plan[field])
+        workout_plan = {
+            "days": result["workout_days"],
+            "restDays": result["rest_days"],
+            "intensity": result["intensity"],
+            "duration": result["duration"],
+            "type": result["workout_type"],
+            "muscleGroup": result["muscle_groups"],
+            "exercises": result["exercises"],
+            "calorieGoal": result["calorie_burn_goal"],
+            "equipment": result["equipment"],
+            "reminders": result["reminders"],
+            "trainerAccess": result["trainer_access"],
+            "progressiveOverload": result["progressive_overload"],
+            "warmUpCoolDown": result["warmup_cooldown"]
+        }
+        print("✅ workout_plan fetched:", workout_plan)
 
         return jsonify(workout_plan), 200
 
     except Exception as e:
+        print("❌ Error in GET /workout_plans:", e)
         return jsonify({"error": f"Failed to fetch workout plan: {str(e)}"}), 500
 
     finally:
         cur.close()
         conn.close()
+

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDumbbell, faCalendarCheck,faTachometerAlt, faBars, faTimes, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarCheck,faTachometerAlt, faBars, faTimes, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext"; // Import AuthContext
 import "../styles/header.css";
@@ -28,7 +28,7 @@ const Header = () => {
             {isLoggedIn ? (
               <>
                 <li>
-                  <Link to="/workout-diet">
+                  <Link to="/tplan">
                   <FontAwesomeIcon icon={faCalendarCheck} /> Today's Plan
                   </Link>
                 </li>
@@ -56,8 +56,8 @@ const Header = () => {
               {isLoggedIn ? (
                 <>
                   <li>
-                    <Link to="/workout-diet" onClick={closeMenu}>
-                      <FontAwesomeIcon icon={faDumbbell} /> Workouts & Diet
+                    <Link to="/tplan" onClick={closeMenu}>
+                      <FontAwesomeIcon icon={faCalendarCheck} /> Today's Plan
                     </Link>
                   </li>
                   <li>

@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/workoutcard.css";
 
 const MealCard = ({ meal }) => {
   return (
@@ -6,7 +7,8 @@ const MealCard = ({ meal }) => {
       <img src={meal.image} alt={meal.name} />
       <h3>{meal.name}</h3>
       <p><strong>Calories:</strong> {meal.calories} kcal</p>
-      <p><strong>Protein:</strong> {meal.protein}g | <strong>Carbs:</strong> {meal.carbs}g</p>
+      <p><strong>Protein:</strong> {meal.protein} g</p>
+      <p><strong>Carbs:</strong> {meal.carbs} g</p>
     </div>
   );
 };

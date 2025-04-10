@@ -10,7 +10,7 @@ import DietPlan from "./pages/DietPlan";
 import Progress from "./pages/Progress";
 import WorkoutPlan from "./pages/WorkoutPlan";
 import ProfileEdit from "./pages/ProfileEdit"; // Added ProfileEdit
-import WorkoutDiet from "./pages/WorkoutDiet"; // Added WorkoutDiet
+import Today from "./pages/Today"; // Added WorkoutDiet
 import "./App.css"; // Add your main styling here
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
         <Route path="/auth" element={<Auth setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<ProfileEdit />} /> {/* ✅ Added ProfileEdit */}
-        <Route path="/workout-diet" element={<WorkoutDiet />} /> {/* ✅ Added WorkoutDiet */}
+        <Route path="/tplan" element={<Today/>} /> {/* ✅ Added WorkoutDiet */}
         <Route path="/settings" element={<Settings/>} />
         <Route path="/workout-plan" element={<WorkoutPlan />} />
         <Route path="/diet-plan" element={<DietPlan />} />
