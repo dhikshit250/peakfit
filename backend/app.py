@@ -27,6 +27,6 @@ app.register_blueprint(profile_bp, url_prefix='/api/profile')
 app.register_blueprint(user_routes, url_prefix='/api/user')
 app.register_blueprint(workout_routes, url_prefix='/api/workout')
 app.register_blueprint(diet_bp, url_prefix='/api/diet')
-app.register_blueprint(generate_plan_bp,url_prefix='/api/generate')
+app.register_blueprint(generate_plan_bp, url_prefix='/api/generate')
 if __name__ == '__main__':
     app.run(debug=True)

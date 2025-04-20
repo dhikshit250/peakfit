@@ -2,6 +2,9 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from utils.db import get_db_connection
 import json
+import psycopg2
+import psycopg2.extras
+
 
 workout_routes = Blueprint("workout_routes", __name__)
 
