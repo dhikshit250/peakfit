@@ -24,8 +24,8 @@ const Auth = () => {
 
     try {
       const url = isLogin
-        ? "http://127.0.0.1:5000/api/auth/login"
-        : "http://127.0.0.1:5000/api/auth/register";
+        ? "https://peakfit.onrender.com/api/auth/login"
+        : "https://peakfit.onrender.com/api/auth/register";
 
       const body = isLogin
         ? { identifier, password }

@@ -101,7 +101,7 @@ const WorkoutPlan = () => {
   useEffect(() => {
     const fetchWorkoutPlan = async () => {
       try {
-        const res = await axios.get("http://127.0.0.1:5000/api/workout/workout_plans", {
+        const res = await axios.get("https://peakfit.onrender.com/api/workout/workout_plans", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -170,7 +170,7 @@ const WorkoutPlan = () => {
     };
 
     try {
-      await axios.post("http://127.0.0.1:5000/api/workout/workout_plans", formattedPlan, {
+      await axios.post("https://peakfit.onrender.com/api/workout/workout_plans", formattedPlan, {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert("Workout Plan Saved!");

@@ -21,7 +21,7 @@ const DietPlan = () => {
       }
 
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/diet/diet-plan", {
+        const response = await fetch("https://peakfit.onrender.com/api/diet/diet-plan", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -71,7 +71,7 @@ const DietPlan = () => {
     };
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/diet/diet-plan", {
+      const response = await fetch("https://peakfit.onrender.com/api/diet/diet-plan", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

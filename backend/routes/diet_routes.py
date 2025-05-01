@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from utils.db import get_db_connection
 
+
 diet_bp = Blueprint('diet_bp', __name__)
 
 @diet_bp.route('/diet-plan', methods=['POST'])

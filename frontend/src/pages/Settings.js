@@ -28,7 +28,7 @@ const Settings = () => {
     if (!window.confirm("Are you sure? This action cannot be undone.")) return;
 
     try {
-      const response = await fetch("http://localhost:5000/delete_account", {
+      const response = await fetch("https://peakfit.onrender.com/delete_account", {
         method: "DELETE",
         headers: { 
           "Content-Type": "application/json",

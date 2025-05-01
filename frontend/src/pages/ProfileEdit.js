@@ -21,7 +21,7 @@ const ProfileEdit = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/profile/get-profile", {
+        const response = await fetch("https://peakfit.onrender.com/api/profile/get-profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -106,7 +106,7 @@ const ProfileEdit = () => {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/profile/save-profile", {
+      const response = await fetch("https://peakfit.onrender.com/api/profile/save-profile", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

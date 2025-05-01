@@ -13,7 +13,7 @@ const Today = () => {
   useEffect(() => {
     const fetchPlan = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/generate/plan", {
+        const response = await fetch("https://peakfit.onrender.com/api/generate/plan", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
