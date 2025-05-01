@@ -71,10 +71,10 @@ def login():
         if not user or not check_password_hash(user[1], password):
             return jsonify({'error': 'Invalid credentials'}), 401
 
-        # Generate JWT tokens
-        access_token = create_access_token(identity=user[0], expires_delta=timedelta(hours=1))
-        refresh_token = create_refresh_token(identity=user[0])
-        
+        # ✅ Identity must be string for JWT
+        access_token = create_access_token(identity=str(user[0]), expires_delta=timedelta(hours=1))
+        refresh_token = create_refresh_token(identity=str(user[0]))
+
         return jsonify({'message': 'Login successful', 'access_token': access_token, 'refresh_token': refresh_token}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
